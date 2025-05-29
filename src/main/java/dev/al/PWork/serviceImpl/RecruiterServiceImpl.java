@@ -1,4 +1,4 @@
-package dev.al.PWork.service.impl;
+package dev.al.PWork.serviceImpl;
 
 import dev.al.PWork.entity.Recruiter;
 import dev.al.PWork.repository.RecruiterRepository;
@@ -39,7 +39,10 @@ public class RecruiterServiceImpl implements RecruiterService {
                     recruiter.setCompanyName(updatedRecruiter.getCompanyName());
                     recruiter.setPosition(updatedRecruiter.getPosition());
                     recruiter.setUser(updatedRecruiter.getUser());
-
+                    recruiter.setPhoneNumber(updatedRecruiter.getPhoneNumber());
+                    recruiter.setCompanyEmail(updatedRecruiter.getCompanyEmail());
+                    recruiter.setCompanyWebsite(updatedRecruiter.getCompanyWebsite());
+                    recruiter.setAddress(updatedRecruiter.getAddress());
                     return recruiterRepository.save(recruiter);
                 })
                 .orElseThrow(() -> new RuntimeException("Recruiter not found"));
@@ -48,5 +51,11 @@ public class RecruiterServiceImpl implements RecruiterService {
     @Override
     public void deleteRecruiter(Long id) {
         recruiterRepository.deleteById(id);
+    }
+
+    @Override
+    public Optional<Recruiter> findByUsername(String username) {
+
+        return recruiterRepository.findByUserUsername(username);
     }
 }

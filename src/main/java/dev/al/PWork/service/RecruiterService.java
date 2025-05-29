@@ -11,4 +11,6 @@ public interface RecruiterService {
     Optional<Recruiter> getRecruiterById(Long id);
     Recruiter updateRecruiter(Long id, Recruiter updatedRecruiter);
     void deleteRecruiter(Long id);
+
+    Optional<Recruiter> findByUsername(String username);
 }
