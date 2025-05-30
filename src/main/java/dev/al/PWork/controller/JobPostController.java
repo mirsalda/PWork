@@ -14,7 +14,7 @@ import java.util.List;
 
 @PreAuthorize("hasRole('RECRUITER')")
 @RestController
-@RequestMapping("/api/job-posts")
+@RequestMapping("/api/job-post")
 public class JobPostController {
 
     private final JobPostService jobPostService;
