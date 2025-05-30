@@ -11,4 +11,5 @@ public interface JobSeekerService {
     Optional<JobSeeker> getJobSeekerById(Long id);
     JobSeeker updateJobSeeker(Long id, JobSeeker updatedJobSeeker);
     void deleteJobSeeker(Long id);
+    Optional<JobSeeker> findByUsername(String username);
 }

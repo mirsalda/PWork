@@ -67,4 +67,9 @@ public class JobSeekerServiceImpl implements JobSeekerService {
     public void deleteJobSeeker(Long id) {
         jobSeekerRepository.deleteById(id);
     }
+    @Override
+    public Optional<JobSeeker> findByUsername(String username) {
+        return jobSeekerRepository.findByUserUsername(username);
+    }
+
 }
