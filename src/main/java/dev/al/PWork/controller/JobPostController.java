@@ -4,12 +4,14 @@ import dev.al.PWork.entity.JobPost;
 import dev.al.PWork.entity.Recruiter;
 import dev.al.PWork.service.JobPostService;
 import dev.al.PWork.service.RecruiterService;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @PreAuthorize("hasRole('RECRUITER')")
@@ -65,4 +67,20 @@ public class JobPostController {
         jobPostService.deleteJobPostById(id);
         return ResponseEntity.noContent().build();
     }
+
+    // Endpoint per filtrimin / kerkimin e puneve
+    @GetMapping("/search")
+    public ResponseEntity<List<JobPost>> searchJobs(
+            @RequestParam(required = false) String location,
+            @RequestParam(required = false) String jobType,
+            @RequestParam(required = false) Double salaryMin,
+            @RequestParam(required = false) Double salaryMax,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate postedDateFrom,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate postedDateTo,
+            @RequestParam(required = false) Boolean active
+    ) {
+        List<JobPost> results = jobPostService.searchJobs(location, jobType, salaryMin, salaryMax, postedDateFrom, postedDateTo, active);
+        return ResponseEntity.ok(results);
+    }
 }
+

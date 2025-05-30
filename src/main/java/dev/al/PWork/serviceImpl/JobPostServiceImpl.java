@@ -3,8 +3,11 @@ package dev.al.PWork.serviceImpl;
 import dev.al.PWork.entity.JobPost;
 import dev.al.PWork.repository.JobPostRepository;
 import dev.al.PWork.service.JobPostService;
+import dev.al.PWork.specification.JobPostSpecification;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -59,5 +62,28 @@ public class JobPostServiceImpl implements JobPostService {
     public void deleteJobPostById(Long id) {
         jobPostRepository.deleteById(id);
     }
+    //  metoda per filtrimin me Specification
+    @Override
+    public List<JobPost> searchJobs(
+            String location,
+            String jobType,
+            Double salaryMin,
+            Double salaryMax,
+            LocalDate postedDateFrom,
+            LocalDate postedDateTo,
+            Boolean active
+    ) {
+        Specification<JobPost> spec = Specification.where(
+                        JobPostSpecification.hasLocation(location))
+                .and(JobPostSpecification.hasJobType(jobType))
+                .and(JobPostSpecification.hasSalaryGreaterThanOrEqual(salaryMin))
+                .and(JobPostSpecification.hasSalaryLessThanOrEqual(salaryMax))
+                .and(JobPostSpecification.postedAfter(postedDateFrom))
+                .and(JobPostSpecification.postedBefore(postedDateTo))
+                .and(JobPostSpecification.isActive(active));
 
+        return jobPostRepository.findAll(spec);
+    }
 }
+
+
